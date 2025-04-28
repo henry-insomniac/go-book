@@ -15,9 +15,17 @@ func SetupRouter() *gin.Engine {
 		DB: database.DB, // Assume database.DB is your gorm.DB instance
 	}
 
+	userService := &service.UserService{
+		DB: database.DB,
+	}
+
 	// Create a BookController instance
 	bookController := &controller.BookController{
 		Service: bookService,
+	}
+
+	userController := &controller.UserController{
+		Service: userService,
 	}
 
 	// Define routes
@@ -25,6 +33,7 @@ func SetupRouter() *gin.Engine {
 	r.GET("/books", bookController.GetBooks)
 	r.PUT("/books/:id", bookController.UpdateBook)
 	r.DELETE("/books/:id", bookController.DeleteBook)
+	r.POST("/createUser", userController.CreateUser)
 
 	return r
 }

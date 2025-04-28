@@ -15,7 +15,7 @@ func main() {
 	database.InitDB()
 
 	// 自动迁移：GORM 会根据模型自动创建或更新数据库表
-	if err := database.DB.AutoMigrate(&model.Book{}); err != nil {
+	if err := database.DB.AutoMigrate(&model.Book{}, &model.User{}); err != nil {
 		log.Fatalf("Auto migration failed: %v", err)
 		return
 	}
