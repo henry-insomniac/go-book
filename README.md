@@ -34,7 +34,3 @@ The journey is just beginning! I plan to explore:
 - Go routines and concurrency
 
 ### Feel free to fork this repo, contribute, and learn together with me. Happy coding! ✨
-
----
-
-This README emphasizes your learning process while inviting others to join you on your Go journey!
