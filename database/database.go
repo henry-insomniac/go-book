@@ -11,7 +11,7 @@ var DB *gorm.DB
 
 func InitDB() {
 	// 数据库连接配置
-	dsn := "root:aa123456@tcp(127.0.0.1:3306)/go_library?charset=utf8&parseTime=True&loc=Local"
+	dsn := "root:password@tcp(127.0.0.1:3306)/go_library?charset=utf8&parseTime=True&loc=Local"
 
 	// 打开数据库连接
 	var err error
