@@ -16,7 +16,7 @@ type User struct {
 }
 
 // CreateUser 创建用户
-func (User) CreateUser(db *gorm.DB, userName, email, password, phone string) error {
+func (User) CreateUser(db *gorm.DB, userName, email, password, phone string) (uint, error) {
 	user := User{
 		Username: userName,
 		Email:    email,
@@ -24,6 +24,19 @@ func (User) CreateUser(db *gorm.DB, userName, email, password, phone string) err
 		Phone:    phone,
 	}
 	if err := db.Create(&user).Error; err != nil {
+		return 0, err
+	}
+	return user.ID, nil
+}
+
+// UpdatePassword 修改密码
+func (User) UpdatePassword(db *gorm.DB, id uint, password string) error {
+	var user User
+	if err := db.First(&user, id).Error; err != nil {
+		return err
+	}
+	user.Password = password
+	if err := db.Save(&user).Error; err != nil {
 		return err
 	}
 	return nil

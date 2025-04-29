@@ -34,6 +34,7 @@ func SetupRouter() *gin.Engine {
 	r.PUT("/books/:id", bookController.UpdateBook)
 	r.DELETE("/books/:id", bookController.DeleteBook)
 	r.POST("/createUser", userController.CreateUser)
+	r.POST("/forgetPassword", userController.ForgetPassword)
 
 	return r
 }
