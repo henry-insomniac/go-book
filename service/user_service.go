@@ -10,11 +10,11 @@ type UserService struct {
 	DB *gorm.DB
 }
 
-func (s *UserService) CreateUser(userName, email, phone, password string) (uint, error) {
+func (s *UserService) CreateUser(userName, email, phone, password string) (string, error) {
 	// 密码加密
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return 0, err
+		return "", err
 	}
 	return model.User{}.CreateUser(s.DB, userName, email, string(hash), phone)
 }

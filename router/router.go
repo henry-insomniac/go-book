@@ -19,6 +19,10 @@ func SetupRouter() *gin.Engine {
 		DB: database.DB,
 	}
 
+	articleService := &service.ArticleService{
+		DB: database.DB,
+	}
+
 	// Create a BookController instance
 	bookController := &controller.BookController{
 		Service: bookService,
@@ -28,6 +32,10 @@ func SetupRouter() *gin.Engine {
 		Service: userService,
 	}
 
+	articleController := &controller.ArticleController{
+		Service: articleService,
+	}
+
 	// Define routes
 	r.POST("/books", bookController.CreateBook)
 	r.GET("/books", bookController.GetBooks)
@@ -35,6 +43,11 @@ func SetupRouter() *gin.Engine {
 	r.DELETE("/books/:id", bookController.DeleteBook)
 	r.POST("/createUser", userController.CreateUser)
 	r.POST("/forgetPassword", userController.ForgetPassword)
+
+	// 博客路由
+	r.POST("/articles", articleController.CreateArticle)
+	r.GET("/articles", articleController.GetAllArticles)
+	r.GET("/articles/search", articleController.SearchArticles)
 
 	return r
 }

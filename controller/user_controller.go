@@ -30,7 +30,7 @@ func (c *UserController) CreateUser(ctx *gin.Context) {
 	}
 
 	userResponse := struct {
-		ID       uint   `json:"id"`
+		ID       string `json:"id"`
 		Username string `json:"username"`
 		Email    string `json:"email"`
 		Phone    string `json:"phone"`

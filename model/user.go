@@ -1,12 +1,13 @@
 package model
 
 import (
+	gonanoid "github.com/matoous/go-nanoid/v2"
 	"gorm.io/gorm"
 	"time"
 )
 
 type User struct {
-	ID        uint      `gorm:"primary_key"`
+	ID        string    `gorm:"primaryKey;type:varchar(32)" json:"id"`
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime"`
 	Username  string    `gorm:"type:varchar(100);not null;unique"`
@@ -15,8 +16,16 @@ type User struct {
 	Password  string    `gorm:"type:varchar(100);not null"`
 }
 
+// BeforeCreate 是 GORM 的 hook，在插入前自动执行
+func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
+	if u.ID == "" {
+		u.ID, err = gonanoid.New()
+	}
+	return
+}
+
 // CreateUser 创建用户
-func (User) CreateUser(db *gorm.DB, userName, email, password, phone string) (uint, error) {
+func (User) CreateUser(db *gorm.DB, userName, email, password, phone string) (string, error) {
 	user := User{
 		Username: userName,
 		Email:    email,
@@ -24,7 +33,7 @@ func (User) CreateUser(db *gorm.DB, userName, email, password, phone string) (ui
 		Phone:    phone,
 	}
 	if err := db.Create(&user).Error; err != nil {
-		return 0, err
+		return "", err
 	}
 	return user.ID, nil
 }
