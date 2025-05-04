@@ -33,6 +33,7 @@ func (c *BookController) GetBooks(ctx *gin.Context) {
 	books, err := c.Service.GetBook()
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve books"})
+		return
 	}
 	ctx.JSON(http.StatusOK, books)
 }

@@ -34,3 +34,11 @@ The journey is just beginning! I plan to explore:
 - Go routines and concurrency
 
 ### Feel free to fork this repo, contribute, and learn together with me. Happy coding! ✨
+
+### deploy
+```shell
+GOOS=linux GOARCH=amd64 go build -o app
+scp -r ./go-book/app ubuntu@119.45.235.63:/home/ubuntu/goBackend/
+pm2 start ./app --name go-blog
+pm2 save 
+pm2 startup

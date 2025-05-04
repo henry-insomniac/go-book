@@ -29,3 +29,16 @@ func (s *ArticleService) SearchArticles(keyword string) ([]model.Article, error)
 		Find(&articles).Error
 	return articles, err
 }
+
+// GetArticleByID 通过 ID 获取文章详情
+func (s *ArticleService) GetArticleByID(id string) (*model.Article, error) {
+	var article model.Article
+	err := s.DB.Preload("Author").Preload("Tags").
+		Where("id = ?", id).
+		First(&article).Error
+
+	if err != nil {
+		return nil, err
+	}
+	return &article, nil
+}

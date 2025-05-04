@@ -83,3 +83,16 @@ func (ac *ArticleController) SearchArticles(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{"articles": articles})
 }
+
+// GetArticleByID GET /articles/:id
+func (ac *ArticleController) GetArticleByID(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	article, err := ac.Service.GetArticleByID(id)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "Article not found"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"article": article})
+}

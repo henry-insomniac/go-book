@@ -24,7 +24,7 @@ func main() {
 	r := router.SetupRouter()
 
 	// 启动服务器
-	if err := r.Run(":8080"); err != nil {
+	if err := r.Run(":8087"); err != nil {
 		fmt.Println("Server failed to start:", err)
 	}
 }

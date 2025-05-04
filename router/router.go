@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/henry-insomniac/go-book/controller"
 	"github.com/henry-insomniac/go-book/database"
@@ -9,6 +10,13 @@ import (
 
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
+
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"}, // 或指定具体的域名，比如 http://localhost:3000
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		AllowCredentials: true,
+	}))
 
 	// Create a BookService instance
 	bookService := &service.BookService{
@@ -37,17 +45,18 @@ func SetupRouter() *gin.Engine {
 	}
 
 	// Define routes
-	r.POST("/books", bookController.CreateBook)
-	r.GET("/books", bookController.GetBooks)
-	r.PUT("/books/:id", bookController.UpdateBook)
-	r.DELETE("/books/:id", bookController.DeleteBook)
-	r.POST("/createUser", userController.CreateUser)
-	r.POST("/forgetPassword", userController.ForgetPassword)
+	r.POST("/interface/books", bookController.CreateBook)
+	r.GET("/interface/books", bookController.GetBooks)
+	r.PUT("/interface/books/:id", bookController.UpdateBook)
+	r.DELETE("/interface/books/:id", bookController.DeleteBook)
+	r.POST("/interface/createUser", userController.CreateUser)
+	r.POST("/interface/forgetPassword", userController.ForgetPassword)
 
 	// 博客路由
-	r.POST("/articles", articleController.CreateArticle)
-	r.GET("/articles", articleController.GetAllArticles)
-	r.GET("/articles/search", articleController.SearchArticles)
+	r.POST("/interface/articles", articleController.CreateArticle)
+	r.GET("/interface/articles", articleController.GetAllArticles)
+	r.GET("/interface/articles/search", articleController.SearchArticles)
+	r.GET("/interface/articles/:id", articleController.GetArticleByID)
 
 	return r
 }
